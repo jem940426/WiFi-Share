@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { getCurrentUser, signOutUser } from '@/application/auth/actions';
+import { getCurrentUser } from '@/application/auth/actions';
 import { createClient } from '@/infrastructure/supabase/server';
 import { Wifi, LogOut, User, Key } from 'lucide-react';
 

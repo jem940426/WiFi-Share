@@ -23,7 +23,7 @@ export const DeleteAccountButton: React.FC = () => {
         setIsDeleting(false);
         setShowModal(false);
       }
-    } catch (e) {
+    } catch {
       alert('탈퇴 처리 중 예상치 못한 오류가 발생했습니다.');
       setIsDeleting(false);
       setShowModal(false);

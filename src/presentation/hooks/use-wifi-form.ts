@@ -1,4 +1,5 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
+import { User } from '@supabase/supabase-js';
 import { WiFiConfig } from '@/domain/types';
 import { generateWiFiString } from '@/application/generate-wifi-string';
 import { TemplateId } from '@/domain/template';
@@ -13,7 +14,7 @@ export const useWiFiForm = () => {
   
   const [templateId, setTemplateId] = useState<TemplateId>('basic');
   const [unlockedIds, setUnlockedIds] = useState<Set<TemplateId>>(new Set());
-  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   React.useEffect(() => {
     // 1. 초기 로드 시 유저 정보 및 언락 내역 가져오기
@@ -31,7 +32,7 @@ export const useWiFiForm = () => {
             setUnlockedIds(new Set(result.value as TemplateId[]));
           }
         }
-      } catch (e) {
+      } catch {
         console.error('Failed to load user data');
       }
     };

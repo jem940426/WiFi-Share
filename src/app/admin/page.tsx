@@ -1,6 +1,6 @@
 import React from 'react';
 import { createClient } from '@/infrastructure/supabase/server';
-import { Users, MousePointerClick, Download, CreditCard } from 'lucide-react';
+import { Users } from 'lucide-react';
 import { TEMPLATES } from '@/domain/template';
 
 export default async function AdminPage() {

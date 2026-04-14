@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Download, AlertCircle, Clock, Loader2, Image as ImageIcon, X, Trash2, AlertTriangle } from 'lucide-react';
+import { Download, AlertCircle, Clock, Loader2, Image as ImageIcon, X, Trash2 } from 'lucide-react';
 import { deleteDownloadRecord } from '@/application/user/actions';
 
 interface HistoryCardProps {

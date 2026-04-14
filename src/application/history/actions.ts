@@ -70,5 +70,5 @@ export const getUnlockedTemplates = async (): Promise<Result<string[], { message
 
   if (error) return failure({ message: error.message });
   
-  return success(data.map((d: any) => d.template_id));
+  return success(data.map((d: { template_id: string }) => d.template_id));
 };

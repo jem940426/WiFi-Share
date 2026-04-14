@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { TEMPLATES, TemplateId, TemplateInfo } from '@/domain/template';
+import { User } from '@supabase/supabase-js';
 import { Lock } from 'lucide-react';
 import { PaymentModal } from './payment-modal';
 import { ConfirmModal } from './confirm-modal';
@@ -17,7 +18,7 @@ interface Props {
   unlockTemplate: (id: TemplateId) => void;
   config: WiFiConfig;
   isInputComplete: boolean;
-  currentUser: any;
+  currentUser: User | null;
 }
 
 export const TemplateSelector: React.FC<Props> = ({ activeTemplateId, onSelect, unlockedIds, unlockTemplate, config, isInputComplete, currentUser }) => {
