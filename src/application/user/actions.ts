@@ -31,14 +31,21 @@ export const deleteDownloadRecord = async (
 
   const supabase = createClient();
 
+  console.log('Attempting to delete record:', { recordId, userId: user.id });
+
   // 1. DB row 삭제 (본인 데이터만 허용)
-  const { error: dbError } = await supabase
+  const { error: dbError, count } = await supabase
     .from('download_history')
-    .delete()
+    .delete({ count: 'exact' }) // 삭제된 행 개수 확인을 위해 count 옵션 추가
     .eq('id', recordId)
     .eq('user_id', user.id);
 
-  if (dbError) return failure({ message: dbError.message });
+  if (dbError) {
+    console.error('Database Delete Error:', dbError.message);
+    return failure({ message: dbError.message });
+  }
+
+  console.log('Database Delete Success. Rows affected:', count);
 
   // 2. Storage 이미지 삭제
   if (imageUrl) {
