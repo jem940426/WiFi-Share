@@ -24,6 +24,50 @@ export const DownloadButton: React.FC<Props> = ({ targetRef, ssid, templateId })
     
     if (!result.isSuccess) {
       alert(`다운로드 실패: ${result.error.message}`);
+    } else {
+      // 서버 액션으로 다운로드 및 액션 로깅
+      try {
+        const { logUserAction, recordDownload } = await import('@/application/history/actions');
+        // 다운로드 로깅
+        const actResult = await logUserAction('downloaded');
+        if (!actResult.isSuccess) console.error('logUserAction failed:', actResult.error.message);
+
+        // 이미지 스토리지 업로드
+        let imageUrl = '';
+        try {
+          const { createClient } = await import('@/infrastructure/supabase/client');
+          const supabase = createClient();
+          const response = await fetch(result.value); // dataUrl to Blob
+          const blob = await response.blob();
+          const fileId = Math.random().toString(36).substring(2, 10) + '-' + Date.now();
+          const filePath = `${fileId}.png`;
+
+          const { data, error } = await supabase.storage
+            .from('qrcodes')
+            .upload(filePath, blob, {
+              contentType: 'image/png'
+            });
+
+          if (!error && data) {
+            const { data: publicUrlData } = supabase.storage.from('qrcodes').getPublicUrl(filePath);
+            imageUrl = publicUrlData.publicUrl;
+          } else {
+            console.error('Storage upload failed:', error);
+          }
+        } catch (uploadEx) {
+          console.error('Storage upload exception:', uploadEx);
+        }
+
+        // 마이 다운로드 기록 처리
+        const downloadHistoryResult = await recordDownload(templateId, ssid, imageUrl);
+        if (!downloadHistoryResult.isSuccess) {
+          console.error('recordDownload failed:', downloadHistoryResult.error.message);
+        } else {
+          console.log('Download history recorded successfully!');
+        }
+      } catch (e) {
+        console.error('Failed to log download history', e);
+      }
     }
     
     setIsDownloading(false);

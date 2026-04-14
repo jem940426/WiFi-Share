@@ -17,19 +17,27 @@ interface Props {
   unlockTemplate: (id: TemplateId) => void;
   config: WiFiConfig;
   isInputComplete: boolean;
+  currentUser: any;
 }
 
-export const TemplateSelector: React.FC<Props> = ({ activeTemplateId, onSelect, unlockedIds, unlockTemplate, config, isInputComplete }) => {
+export const TemplateSelector: React.FC<Props> = ({ activeTemplateId, onSelect, unlockedIds, unlockTemplate, config, isInputComplete, currentUser }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const [pendingTemplateId, setPendingTemplateId] = useState<TemplateId | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  const handleTemplateClick = (id: TemplateId) => {
+  const handleTemplateClick = async (id: TemplateId) => {
     const tpl = TEMPLATES[id];
+    const { logUserAction } = await import('@/application/history/actions');
+    logUserAction('template_selected');
 
     // 잠겨있는 프리미엄 템플릿이라면
     if (tpl.isPremium && !unlockedIds.has(id)) {
+      if (!currentUser) {
+        setToastMessage('결제 및 다운로드 기록 저장을 위해 먼저 로그인해주세요.');
+        setTimeout(() => setToastMessage(null), 3000);
+        return;
+      }
       if (!isInputComplete) {
         setToastMessage('먼저 네트워크 정보를 완벽하게 입력해주세요.');
         setTimeout(() => setToastMessage(null), 3000);
@@ -44,7 +52,9 @@ export const TemplateSelector: React.FC<Props> = ({ activeTemplateId, onSelect, 
     onSelect(id);
   };
 
-  const handleConfirmPay = () => {
+  const handleConfirmPay = async () => {
+    const { logUserAction } = await import('@/application/history/actions');
+    logUserAction('payment_modal_opened');
     setConfirmModalOpen(false);
     setModalOpen(true);
   };
@@ -63,10 +73,15 @@ export const TemplateSelector: React.FC<Props> = ({ activeTemplateId, onSelect, 
     setPendingTemplateId(null);
   };
 
-  const handleUnlockDemo = () => {
+  const handleUnlockDemo = async () => {
     if (pendingTemplateId) {
+      const { logUserAction, recordUnlock } = await import('@/application/history/actions');
       unlockTemplate(pendingTemplateId);
       onSelect(pendingTemplateId);
+      
+      logUserAction('unlocked');
+      recordUnlock(pendingTemplateId);
+      
       setPendingTemplateId(null);
     }
   };

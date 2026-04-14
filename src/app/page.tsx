@@ -10,7 +10,7 @@ import { ScanLine, Lock } from 'lucide-react';
 import { TEMPLATES } from '@/domain/template';
 
 export default function Home() {
-  const { config, handleChange, wifiStringResult, templateId, setTemplateId, unlockedIds, unlockTemplate } = useWiFiForm();
+  const { config, handleChange, wifiStringResult, templateId, setTemplateId, unlockedIds, unlockTemplate, currentUser } = useWiFiForm();
   const previewRef = useRef<HTMLDivElement>(null);
 
   const isSsidEmpty = !config.ssid.trim();
@@ -51,7 +51,7 @@ export default function Home() {
           
           {/* Left: Input Form & Template Selector */}
           <div className="w-full lg:w-[450px] flex flex-col items-center lg:items-end">
-            <WiFiForm config={config} onChange={handleChange} isDisabled={unlockedIds.size > 0} />
+            <WiFiForm config={config} onChange={handleChange} isDisabled={activeTemplateInfo.isPremium && unlockedIds.has(templateId)} />
             <TemplateSelector 
               activeTemplateId={templateId} 
               onSelect={setTemplateId} 
@@ -59,6 +59,7 @@ export default function Home() {
               unlockTemplate={unlockTemplate}
               config={config}
               isInputComplete={isInputComplete}
+              currentUser={currentUser}
             />
           </div>
 

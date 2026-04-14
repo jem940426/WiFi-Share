@@ -7,7 +7,7 @@ import { Result, success, failure } from '../domain/result';
 export const downloadElementAsPng = async (
   element: HTMLElement,
   filename: string = 'wifi-qrcode.png'
-): Promise<Result<void, Error>> => {
+): Promise<Result<string, Error>> => {
   try {
     const canvas = await html2canvas(element, {
       scale: 3, // 고해상도 캡처
@@ -28,7 +28,8 @@ export const downloadElementAsPng = async (
     link.click();
     document.body.removeChild(link);
 
-    return success(undefined);
+    // 다운로드 성공 후 dataUrl을 반환 (스토리지 업로드 용도)
+    return success(dataUrl);
   } catch (error) {
     return failure(error instanceof Error ? error : new Error('이미지 캡처 중 알림 없는 오류 발생'));
   }
@@ -40,7 +41,7 @@ export const downloadElementAsPng = async (
 export const downloadPosterElementAsPng = async (
   element: HTMLElement,
   filename: string = 'wifi-qrcode.png'
-): Promise<Result<void, Error>> => {
+): Promise<Result<string, Error>> => {
   try {
     const canvas = await html2canvas(element, {
       scale: 3,
@@ -62,7 +63,7 @@ export const downloadPosterElementAsPng = async (
     link.click();
     document.body.removeChild(link);
 
-    return success(undefined);
+    return success(dataUrl);
   } catch (error) {
     return failure(error instanceof Error ? error : new Error('이미지 캡처 중 알림 없는 오류 발생'));
   }
