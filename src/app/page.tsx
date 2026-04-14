@@ -16,9 +16,9 @@ export default function Home() {
   const isSsidEmpty = !config.ssid.trim();
   const isInputComplete = !isSsidEmpty && (config.encryption === 'nopass' || (config.password || '').trim() !== '');
   
-  const displaySsid = isSsidEmpty ? 'HOME WIFI' : config.ssid;
+  const displaySsid = isSsidEmpty ? 'MY HOME WIFI' : config.ssid;
   const displayWifiString = isSsidEmpty 
-    ? 'WIFI:T:WPA;S:HOME WIFI;P:dummy;;' 
+    ? 'WIFI:T:WPA;S:MY HOME WIFI;P:dummy;;' 
     : (wifiStringResult.isSuccess ? wifiStringResult.value : '');
 
   const activeTemplateInfo = TEMPLATES[templateId];
