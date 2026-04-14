@@ -14,8 +14,8 @@ export const BasicTemplate: React.FC<Props> = ({ wifiString, ssid, isLocked }) =
       style={{ aspectRatio: '3/4', fontFamily: 'Arial, Helvetica, sans-serif' }}
     >
       <div className="mb-8 text-center flex flex-col items-center">
-        <h3 className="text-3xl font-black mb-2 pb-1 uppercase break-words line-clamp-2 w-full px-2 leading-relaxed">
-          {ssid || 'NO NETWORK'}
+        <h3 className="text-2xl font-black mb-2 pb-1 uppercase whitespace-nowrap overflow-hidden text-ellipsis w-full px-2 leading-relaxed">
+          {ssid || 'MY HOME WIFI'}
         </h3>
         <div className="w-12 h-1 bg-black rounded-full mb-2"></div>
         <p className="text-xs font-semibold text-black/60 uppercase">

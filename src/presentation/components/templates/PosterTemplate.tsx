@@ -22,11 +22,9 @@ export const PosterTemplate: React.FC<Props> = ({ wifiString, ssid, isLocked }) 
         
         <div className="w-full">
           <p className="text-[12px] font-bold text-white/90 uppercase mb-1 tracking-widest">NETWORK ID</p>
-          <div className="bg-[#1D3557] text-white px-4 py-3 rounded-lg border-2 border-[#1D3557] w-full break-words">
-            <h3 className="text-xl font-black pb-1 leading-tight">
-              {ssid || 'NO NETWORK'}
+            <h3 className="text-xl font-black pb-1 leading-tight whitespace-nowrap overflow-hidden text-ellipsis">
+              {ssid || 'MY HOME WIFI'}
             </h3>
-          </div>
         </div>
       </div>
 

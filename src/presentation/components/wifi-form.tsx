@@ -30,7 +30,7 @@ export const WiFiForm: React.FC<Props> = ({ config, onChange, isDisabled = false
             value={config.ssid}
             onChange={(e) => onChange('ssid', e.target.value)}
             disabled={isDisabled}
-            placeholder="예: MyHomeWiFi"
+            placeholder="예: MY HOME WIFI"
             className="w-full px-4 py-3 rounded-xl bg-black/20 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed"
           />
         </div>

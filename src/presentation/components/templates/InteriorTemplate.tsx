@@ -18,8 +18,8 @@ export const InteriorTemplate: React.FC<Props> = ({ wifiString, ssid, isLocked }
         
         <div className="mt-8 text-center flex flex-col items-center flex-1">
           <p className="text-sm font-medium text-[#8b8378] italic mb-1">Welcome to our space</p>
-          <h3 className="text-2xl font-bold mb-2 pb-1 text-[#4a453e] break-words line-clamp-2 w-full px-2 leading-relaxed" style={{ fontFamily: 'var(--font-cursive, cursive)' }}>
-            {ssid || 'NO NETWORK'}
+          <h3 className="text-2xl font-bold mb-2 pb-1 text-[#4a453e] whitespace-nowrap overflow-hidden text-ellipsis w-full px-2 leading-relaxed" style={{ fontFamily: 'var(--font-cursive, cursive)' }}>
+            {ssid || 'MY HOME WIFI'}
           </h3>
         </div>
 
