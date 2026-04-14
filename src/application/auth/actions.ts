@@ -10,16 +10,22 @@ export const signUpUser = async (formData: FormData): Promise<Result<null, { mes
   if (!email || !password) return failure({ message: '이메일과 비밀번호를 모두 입력해주세요.' });
 
   const supabase = createClient();
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
   });
 
   if (error) {
     if (error.message.includes('User already registered')) {
-      return failure({ message: '이미 가입된 이메일입니다. 로그인해주세요.' });
+      return failure({ message: 'ALREADY_REGISTERED' });
     }
     return failure({ message: error.message });
+  }
+
+  // Supabase 보안 설정으로 인해 에러 없이 성공으로 반환되더라도 
+  // identities가 비어있으면 이미 가입된 이메일임
+  if (data.user && (!data.user.identities || data.user.identities.length === 0)) {
+    return failure({ message: 'ALREADY_REGISTERED' });
   }
   
   return success(null);

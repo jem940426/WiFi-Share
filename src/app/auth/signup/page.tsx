@@ -10,6 +10,7 @@ export default function SignUpPage() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -21,7 +22,11 @@ export default function SignUpPage() {
     const result = await signUpUser(formData);
 
     if (!result.isSuccess) {
-      setError(result.error.message);
+      if (result.error.message === 'ALREADY_REGISTERED') {
+        setShowLoginModal(true);
+      } else {
+        setError(result.error.message);
+      }
       setIsLoading(false);
     } else {
       setIsLoading(false);
@@ -101,6 +106,36 @@ export default function SignUpPage() {
             >
               확인
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* 이미 가입된 계정 안내 팝업 */}
+      {showLoginModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-[#111] border border-white/10 rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl scale-in-95 animate-in slide-in-from-bottom-4 duration-300">
+            <div className="w-16 h-16 bg-rose-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+              <MailCheck className="w-8 h-8 text-rose-400" />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-3">이미 가입된 계정</h3>
+            <p className="text-white/70 text-sm leading-relaxed mb-8">
+              이미 가입된 이메일입니다.<br/>
+              로그인 페이지로 이동하시겠습니까?
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowLoginModal(false)}
+                className="flex-1 py-3.5 bg-white/5 text-white/70 font-bold rounded-xl hover:bg-white/10 transition-colors"
+              >
+                취소
+              </button>
+              <button
+                onClick={() => router.push('/auth/login')}
+                className="flex-1 py-3.5 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-500 transition-colors"
+              >
+                확인
+              </button>
+            </div>
           </div>
         </div>
       )}
