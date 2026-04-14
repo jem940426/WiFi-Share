@@ -8,6 +8,8 @@ import Link from 'next/link';
 import { HistoryCard } from './history-card';
 import { DeleteAccountButton } from './delete-account-button';
 
+export const dynamic = 'force-dynamic';
+
 export default async function MyDownloadsPage() {
   const user = await getCurrentUser();
   if (!user) return null; // Middleware will redirect

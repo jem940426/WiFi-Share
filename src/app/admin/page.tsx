@@ -3,6 +3,8 @@ import { createClient } from '@/infrastructure/supabase/server';
 import { Users } from 'lucide-react';
 import { TEMPLATES } from '@/domain/template';
 
+export const dynamic = 'force-dynamic';
+
 export default async function AdminPage() {
   const supabase = createClient();
   

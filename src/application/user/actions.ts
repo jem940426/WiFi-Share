@@ -104,5 +104,8 @@ export const deleteAccount = async (): Promise<Result<null, { message: string }>
   const { error: authError } = await adminClient.auth.admin.deleteUser(user.id);
   if (authError) return failure({ message: '계정 삭제 중 오류가 발생했습니다: ' + authError.message });
 
+  revalidatePath('/my-downloads');
+  revalidatePath('/admin');
+  
   return success(null);
 };
