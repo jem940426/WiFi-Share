@@ -67,10 +67,9 @@ export const TemplateSelector: React.FC<Props> = ({ activeTemplateId, onSelect, 
   };
 
   const handleModalClose = () => {
+    // 결제 완료(handleUnlockDemo) 없이 모달을 닫은 경우 → 템플릿 선택하지 않음
+    // 이전 코드는 결제 없이도 onSelect가 호출되는 버그가 있었음
     setModalOpen(false);
-    if (pendingTemplateId && !unlockedIds.has(pendingTemplateId)) {
-      onSelect(pendingTemplateId);
-    }
     setPendingTemplateId(null);
   };
 
