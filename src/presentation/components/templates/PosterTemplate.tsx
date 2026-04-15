@@ -7,33 +7,161 @@ interface Props {
   isLocked?: boolean;
 }
 
+/**
+ * 포스터형 템플릿 컴포넌트
+ *
+ * ⚠️ Tailwind 클래스 사용 금지 — html2canvas와 브라우저 프리뷰 간 렌더링 불일치 방지를 위해
+ * 모든 스타일을 인라인 스타일(style prop)로만 정의합니다.
+ * 레이아웃 기준: 실제 PNG 다운로드 결과물
+ */
 export const PosterTemplate: React.FC<Props> = ({ wifiString, ssid, isLocked }) => {
   return (
     <div
-      className="bg-[#E63946] text-[#F1FAEE] p-8 rounded-[2rem] shadow-2xl flex flex-col items-start justify-between w-80 shrink-0 mx-auto border-4 border-[#1D3557] overflow-hidden"
-      style={{ height: '540px', fontFamily: 'Arial, Helvetica, sans-serif' }}
+      style={{
+        // 외부 컨테이너: 포스터 전체 영역
+        backgroundColor: '#E63946',
+        color: '#F1FAEE',
+        padding: '32px',
+        borderRadius: '32px',
+        boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',      // 왼쪽 정렬 기준
+        justifyContent: 'space-between',
+        width: '320px',
+        height: '540px',
+        border: '4px solid #1D3557',
+        overflow: 'hidden',
+        fontFamily: 'Arial, Helvetica, sans-serif',
+        boxSizing: 'border-box',
+        flexShrink: 0,
+      }}
     >
-      <div className="w-full flex-1">
-        <h2 className="text-4xl font-black leading-[1.1] text-[#1D3557] tracking-tight mb-3">
-          비밀번호는<br />QR에게<br />물어보세요 <span className="inline-block transform translate-y-1 scale-90">🤫</span>
+      {/* 상단 텍스트 영역 */}
+      <div style={{ width: '100%', flex: 1 }}>
+        <h2
+          style={{
+            fontSize: '36px',
+            fontWeight: 900,
+            lineHeight: 1.1,
+            color: '#1D3557',
+            letterSpacing: '-0.03em',
+            marginBottom: '12px',
+            margin: 0,
+            marginBottom: '12px',
+          }}
+        >
+          비밀번호는
+          <br />
+          QR에게
+          <br />
+          물어보세요 <span style={{ display: 'inline-block', transform: 'translateY(4px) scale(0.9)' }}>🤫</span>
         </h2>
-        
-        <div className="w-12 h-2 bg-[#F1FAEE] mb-6"></div>
-        
-        <div className="w-full">
-          <p className="text-[12px] font-bold text-white/90 uppercase mb-1 tracking-widest">NETWORK ID</p>
-            <h3 className="text-xl font-black pb-1 leading-tight whitespace-nowrap overflow-hidden text-ellipsis">
-              {ssid || 'MY HOME WIFI'}
-            </h3>
+
+        {/* 구분선 */}
+        <div
+          style={{
+            width: '48px',
+            height: '8px',
+            backgroundColor: '#F1FAEE',
+            marginBottom: '24px',
+            marginTop: '12px',
+          }}
+        />
+
+        {/* 네트워크 ID 섹션 */}
+        <div style={{ width: '100%' }}>
+          <p
+            style={{
+              fontSize: '12px',
+              fontWeight: 700,
+              color: 'rgba(255,255,255,0.9)',
+              textTransform: 'uppercase',
+              marginBottom: '4px',
+              letterSpacing: '0.15em',
+              margin: 0,
+              marginBottom: '4px',
+            }}
+          >
+            NETWORK ID
+          </p>
+          <h3
+            style={{
+              fontSize: '20px',
+              fontWeight: 900,
+              paddingBottom: '4px',
+              lineHeight: 1.2,
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              margin: 0,
+              color: '#F1FAEE',
+            }}
+          >
+            {ssid || 'MY HOME WIFI'}
+          </h3>
         </div>
       </div>
 
-      <div className="w-full flex flex-col items-center mt-6">
-        <div className="bg-[#F1FAEE] p-3 rounded-xl border-4 border-[#1D3557] inline-block mb-4 shadow-[4px_4px_0px_0px_rgba(29,53,87,1)] relative">
+      {/* 하단 QR 코드 영역 */}
+      <div
+        style={{
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          marginTop: '24px',
+        }}
+      >
+        {/* QR 코드 박스 */}
+        <div
+          style={{
+            backgroundColor: '#F1FAEE',
+            padding: '12px',
+            borderRadius: '12px',
+            border: '4px solid #1D3557',
+            display: 'inline-block',
+            marginBottom: '16px',
+            boxShadow: '4px 4px 0px 0px rgba(29,53,87,1)',
+            position: 'relative',
+          }}
+        >
+          {/* 잠금 상태 블러 오버레이 */}
           {isLocked && (
-            <div className="absolute inset-0 bg-[#F1FAEE]/80 backdrop-blur-[8px] z-10 m-2 flex items-center justify-center rounded-md">
-              <div className="w-12 h-1 bg-[#1D3557]/40 rotate-45 rounded-full absolute" />
-              <div className="w-12 h-1 bg-[#1D3557]/40 -rotate-45 rounded-full absolute" />
+            <div
+              style={{
+                position: 'absolute',
+                inset: '8px',
+                backgroundColor: 'rgba(241,250,238,0.8)',
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+                zIndex: 10,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: '6px',
+              }}
+            >
+              <div
+                style={{
+                  width: '48px',
+                  height: '4px',
+                  backgroundColor: 'rgba(29,53,87,0.4)',
+                  transform: 'rotate(45deg)',
+                  borderRadius: '9999px',
+                  position: 'absolute',
+                }}
+              />
+              <div
+                style={{
+                  width: '48px',
+                  height: '4px',
+                  backgroundColor: 'rgba(29,53,87,0.4)',
+                  transform: 'rotate(-45deg)',
+                  borderRadius: '9999px',
+                  position: 'absolute',
+                }}
+              />
             </div>
           )}
           <QRCodeSVG
@@ -42,10 +170,26 @@ export const PosterTemplate: React.FC<Props> = ({ wifiString, ssid, isLocked }) 
             level="M"
             fgColor="#1D3557"
             includeMargin={false}
-            className="rounded-sm"
           />
         </div>
-        <p className="text-[13px] font-black tracking-[0.2em] text-[#1D3557] uppercase bg-[#F1FAEE] px-3 py-1 border-2 border-[#1D3557]">
+
+        {/* SCAN TO CONNECT 레이블 */}
+        <p
+          style={{
+            fontSize: '13px',
+            fontWeight: 900,
+            letterSpacing: '0.2em',
+            color: '#1D3557',
+            textTransform: 'uppercase',
+            backgroundColor: '#F1FAEE',
+            paddingLeft: '12px',
+            paddingRight: '12px',
+            paddingTop: '4px',
+            paddingBottom: '4px',
+            border: '2px solid #1D3557',
+            margin: 0,
+          }}
+        >
           SCAN TO CONNECT
         </p>
       </div>
