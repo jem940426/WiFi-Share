@@ -62,6 +62,12 @@ export default function LoginPage() {
             />
           </div>
 
+          <div className="flex justify-end">
+            <Link href="/auth/reset-password" className="text-xs text-white/40 hover:text-blue-400 transition-colors font-medium">
+              비밀번호를 잊으셨나요?
+            </Link>
+          </div>
+
           <button 
             type="submit" 
             disabled={isLoading}
