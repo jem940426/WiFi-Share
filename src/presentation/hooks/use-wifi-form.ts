@@ -28,9 +28,14 @@ export const useWiFiForm = () => {
 
         if (user) {
           const result = await getUnlockedTemplates();
+          console.log('[DEBUG] getUnlockedTemplates result:', JSON.stringify(result));
+          console.log('[DEBUG] user.id:', user.id);
           if (result.isSuccess) {
+            console.log('[DEBUG] unlocked template_ids from DB:', result.value);
             setUnlockedIds(new Set(result.value as TemplateId[]));
           }
+        } else {
+          console.log('[DEBUG] No user logged in — unlockedIds stays empty');
         }
       } catch {
         console.error('Failed to load user data');

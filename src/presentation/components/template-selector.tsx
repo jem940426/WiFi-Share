@@ -29,6 +29,7 @@ export const TemplateSelector: React.FC<Props> = ({ activeTemplateId, onSelect, 
 
   const handleTemplateClick = async (id: TemplateId) => {
     const tpl = TEMPLATES[id];
+    console.log('[DEBUG] handleTemplateClick:', { id, isPremium: tpl.isPremium, isUnlocked: unlockedIds.has(id), unlockedIds: [...unlockedIds], currentUser: !!currentUser, isInputComplete });
     const { logUserAction } = await import('@/application/history/actions');
     logUserAction('template_selected');
 
@@ -105,7 +106,14 @@ export const TemplateSelector: React.FC<Props> = ({ activeTemplateId, onSelect, 
         </div>
       )}
 
+
       <div className="w-full mt-8 flex flex-col gap-3 z-0">
+        {/* 🔧 디버그 배너 — 문제 해결 후 삭제 예정 */}
+        <div className="bg-yellow-500/20 border border-yellow-500/40 rounded-xl p-3 text-xs text-yellow-300 font-mono">
+          <p>🔧 DEBUG: user={currentUser ? currentUser.email : 'null'}</p>
+          <p>🔧 DEBUG: unlockedIds=[{[...unlockedIds].join(', ')}]</p>
+          <p>🔧 DEBUG: isInputComplete={String(isInputComplete)}</p>
+        </div>
         <h3 className="text-sm font-medium text-white/50 flex justify-between items-center px-1">
           <span>디자인 템플릿 선택</span>
           <span className="text-blue-400 text-xs font-semibold px-2 py-1 bg-blue-500/10 rounded-full">Pro+</span>

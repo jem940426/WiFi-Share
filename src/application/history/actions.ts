@@ -60,6 +60,7 @@ export const recordDownload = async (templateId: string, ssid: string, imageUrl?
 // 템플릿 언락 상태 조회
 export const getUnlockedTemplates = async (): Promise<Result<string[], { message: string }>> => {
   const user = await getCurrentUser();
+  console.log('[SERVER DEBUG] getUnlockedTemplates called, user:', user?.id ?? 'null');
   if (!user) return success([]);
 
   const supabase = createClient();
@@ -68,7 +69,11 @@ export const getUnlockedTemplates = async (): Promise<Result<string[], { message
     .select('template_id')
     .eq('user_id', user.id);
 
+  console.log('[SERVER DEBUG] unlock_history query result:', { data, error: error?.message });
+
   if (error) return failure({ message: error.message });
   
-  return success(data.map((d: { template_id: string }) => d.template_id));
+  const templateIds = data.map((d: { template_id: string }) => d.template_id);
+  console.log('[SERVER DEBUG] returning templateIds:', templateIds);
+  return success(templateIds);
 };
