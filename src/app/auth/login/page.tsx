@@ -41,6 +41,7 @@ export default function LoginPage() {
       provider: 'kakao',
       options: {
         redirectTo: `${siteUrl}/`,
+        scopes: 'profile_nickname profile_image',
       },
     });
 

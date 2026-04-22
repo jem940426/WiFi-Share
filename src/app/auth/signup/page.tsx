@@ -43,6 +43,7 @@ export default function SignUpPage() {
       provider: 'kakao',
       options: {
         redirectTo: `${siteUrl}/`,
+        scopes: 'profile_nickname profile_image',
       },
     });
 
