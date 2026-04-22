@@ -51,7 +51,7 @@ export default function Home() {
           
           {/* Left: Input Form & Template Selector */}
           <div className="w-full lg:w-[450px] flex flex-col items-center lg:items-end">
-            <WiFiForm config={config} onChange={handleChange} isDisabled={activeTemplateInfo.isPremium && unlockedIds.has(templateId)} />
+            <WiFiForm config={config} onChange={handleChange} isDisabled={false} />
             <TemplateSelector 
               activeTemplateId={templateId} 
               onSelect={setTemplateId} 

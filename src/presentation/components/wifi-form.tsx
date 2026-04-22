@@ -14,7 +14,6 @@ export const WiFiForm: React.FC<Props> = ({ config, onChange, isDisabled = false
       <div>
         <h2 className="text-2xl font-bold text-white mb-1">Wi-Fi 설정</h2>
         <p className="text-white/60 text-sm">네트워크 정보를 입력하면 QR 코드가 실시간으로 업데이트됩니다.</p>
-        {isDisabled && <p className="text-rose-400 text-xs font-bold mt-2 mt-1">※ 프리미엄 템플릿 사용 중에는 정보를 수정할 수 없습니다.</p>}
       </div>
 
       <div className="space-y-4 mt-2">
