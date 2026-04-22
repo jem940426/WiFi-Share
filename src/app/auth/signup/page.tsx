@@ -44,6 +44,9 @@ export default function SignUpPage() {
       options: {
         redirectTo: `${siteUrl}/`,
         scopes: 'profile_nickname profile_image',
+        queryParams: {
+          scope: 'profile_nickname profile_image',
+        },
       },
     });
 
