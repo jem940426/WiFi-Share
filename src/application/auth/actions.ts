@@ -10,9 +10,16 @@ export const signUpUser = async (formData: FormData): Promise<Result<null, { mes
   if (!email || !password) return failure({ message: '이메일과 비밀번호를 모두 입력해주세요.' });
 
   const supabase = createClient();
+  // 배포 환경 URL 우선, 없으면 Vercel 배포 주소로 고정
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://wifi-share-fawn.vercel.app';
+
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
+    options: {
+      // 이메일 인증 후 이동할 URL (localhost 방지)
+      emailRedirectTo: `${siteUrl}/auth/login`,
+    },
   });
 
   if (error) {

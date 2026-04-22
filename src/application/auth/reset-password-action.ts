@@ -15,8 +15,11 @@ export const sendPasswordResetEmail = async (
   }
 
   const supabase = createClient();
+  // 배포 환경 URL 우선, 없으면 Vercel 배포 주소로 고정 (localhost 방지)
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://wifi-share-fawn.vercel.app';
+
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${process.env.NEXT_PUBLIC_SUPABASE_URL ? '' : ''}${typeof window !== 'undefined' ? window.location.origin : process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000'}/auth/login`,
+    redirectTo: `${siteUrl}/auth/login`,
   });
 
   if (error) {
