@@ -21,7 +21,7 @@ export default function LoginPage() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${siteUrl}/`,
+        redirectTo: `${siteUrl}/auth/callback`,
       },
     });
 
@@ -40,7 +40,7 @@ export default function LoginPage() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'kakao',
       options: {
-        redirectTo: `${siteUrl}/`,
+        redirectTo: `${siteUrl}/auth/callback`,
         scopes: 'profile_nickname profile_image',
         queryParams: {
           scope: 'profile_nickname profile_image',
