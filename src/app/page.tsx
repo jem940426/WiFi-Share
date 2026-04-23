@@ -64,9 +64,13 @@ export default function Home() {
   // 다운로드 버튼 비활성화
   const isDownloadBlocked = isPreviewBlocked || (templateId === 'ai' && isTemplateLocked);
 
-  // 유료 템플릿 중 하나라도 언락된 경우 또는 현재 선택된 템플릿이 AI 생성형인 경우 입력 필드 잠금
+  // 기본형 템플릿이 선택되어 있을 때는 무조건 입력 필드 활성화
+  // 그 외에는 유료 템플릿이 언락되어 있거나 AI 생성형인 경우 잠금
   const hasUnlockedPremium = Array.from(unlockedIds).some(id => id !== 'basic');
-  const isInputDisabled = hasUnlockedPremium || templateId === 'ai';
+  const isInputDisabled = templateId !== 'basic' && (hasUnlockedPremium || templateId === 'ai');
+
+  // 다운로드 하단 경고 문구 조건 (기본형 제외, 유료 템플릿이 언락된 상태)
+  const isPremiumUnlocked = templateId !== 'basic' && activeTemplateInfo.isPremium && !isTemplateLocked;
 
   return (
     <main className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
@@ -187,10 +191,15 @@ export default function Home() {
               )}
             </div>
 
-            <div className="w-full flex justify-center mt-6">
+            <div className="w-full flex flex-col items-center mt-6 gap-2">
               <div className={isDownloadBlocked ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}>
                 <DownloadButton targetRef={previewRef} ssid={config.ssid} templateId={templateId} />
               </div>
+              {isPremiumUnlocked && (
+                <p className="text-amber-400/90 text-xs font-medium tracking-wide">
+                  ⚠️ 지금 다운로드하지 않으면 재결제가 필요할 수 있어요
+                </p>
+              )}
             </div>
           </div>
         </div>

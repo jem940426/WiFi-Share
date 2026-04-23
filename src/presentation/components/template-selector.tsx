@@ -318,11 +318,7 @@ export const TemplateSelector: React.FC<Props> = ({
                     <Lock size={14} />
                     결제하고 워터마크 제거 (₩2,000)
                   </button>
-                ) : (
-                  <p className="text-[10px] text-violet-300/60 text-center mt-1">
-                    아래에서 고화질로 다운로드하세요 ✨
-                  </p>
-                )}
+                ) : null}
               </div>
             ) : (
               <>
