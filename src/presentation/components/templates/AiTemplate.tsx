@@ -69,12 +69,6 @@ export const AiTemplate: React.FC<Props> = ({ wifiString, ssid, isLocked, style 
         className="w-full h-full rounded-xl flex flex-col items-center p-6 relative"
         style={{ border: `1px solid ${borderColor}` }}
       >
-        {/* 상단 장식선 */}
-        <div
-          className="absolute top-4 left-1/2 -translate-x-1/2 w-8 h-[2px]"
-          style={{ backgroundColor: pointColor }}
-        />
-
         {/* 상단 문구 영역 */}
         <div className="mt-8 text-center flex flex-col items-center flex-1">
           <p className="text-sm font-medium italic mb-1" style={{ color: subTextColor }}>
@@ -118,21 +112,6 @@ export const AiTemplate: React.FC<Props> = ({ wifiString, ssid, isLocked, style 
           </p>
         </div>
 
-        {/* 하단 포인트 라인 */}
-        <div
-          className="absolute bottom-4 left-1/2 -translate-x-1/2 w-8 h-[2px]"
-          style={{ backgroundColor: pointColor }}
-        />
-
-        {/* 좌측 포인트 세로선 */}
-        <div
-          className="absolute left-4 top-1/2 -translate-y-1/2 h-8 w-[2px]"
-          style={{ backgroundColor: pointColor, opacity: 0.4 }}
-        />
-        <div
-          className="absolute right-4 top-1/2 -translate-y-1/2 h-8 w-[2px]"
-          style={{ backgroundColor: pointColor, opacity: 0.4 }}
-        />
       </div>
     </div>
   );
