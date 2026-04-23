@@ -83,10 +83,13 @@ export const TemplateSelector: React.FC<Props> = ({
 
     // 기본형 템플릿 클릭 시 모든 언락 상태 초기화 및 DB 삭제
     if (id === 'basic') {
-      clearAllUnlocks();
-      const { deleteAllUserUnlocks } = await import('@/application/history/actions');
-      await deleteAllUserUnlocks(config.ssid);
       onSelect(id);
+      clearAllUnlocks();
+      
+      // DB 삭제는 비동기로 처리하여 UI 블로킹 방지
+      import('@/application/history/actions').then(({ deleteAllUserUnlocks }) => {
+        deleteAllUserUnlocks(config.ssid);
+      });
       return;
     }
 
