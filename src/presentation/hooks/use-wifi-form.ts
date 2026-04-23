@@ -73,6 +73,10 @@ export const useWiFiForm = () => {
     });
   };
 
+  const clearAllUnlocks = () => {
+    setUnlockedIds(new Set());
+  };
+
   // WiFi QR 문자열 실시간 생성결과. (최적화를 위해 useMemo 사용)
   const wifiStringResult = useMemo(() => generateWiFiString(config), [config]);
 
@@ -85,6 +89,7 @@ export const useWiFiForm = () => {
     unlockedIds,
     unlockTemplate,
     removeUnlockId,
+    clearAllUnlocks,
     currentUser,
   };
 };

@@ -46,6 +46,21 @@ export const deleteUnlock = async (templateId: string, ssid: string): Promise<Re
   return success(null);
 };
 
+export const deleteAllUserUnlocks = async (ssid: string): Promise<Result<null, { message: string }>> => {
+  const user = await getCurrentUser();
+  if (!user) return success(null);
+
+  const supabase = createClient();
+  const { error } = await supabase
+    .from('unlock_history')
+    .delete()
+    .eq('user_id', user.id)
+    .eq('ssid', ssid);
+
+  if (error) return failure({ message: error.message });
+  return success(null);
+};
+
 import { revalidatePath } from 'next/cache';
 
 export const recordDownload = async (templateId: string, ssid: string, imageUrl?: string): Promise<Result<null, { message: string }>> => {

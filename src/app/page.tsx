@@ -20,6 +20,7 @@ export default function Home() {
     unlockedIds,
     unlockTemplate,
     removeUnlockId,
+    clearAllUnlocks,
     currentUser,
   } = useWiFiForm();
 
@@ -53,15 +54,19 @@ export default function Home() {
   // AI 생성형: 스타일이 없는 경우에만 오버레이 처리 (결제 여부 무관)
   const isAiNoStyle = templateId === 'ai' && !aiStyle;
   
-  // 기존 템플릿용 프리미엄 블록 (AI 템플릿은 모달을 따로 띄우고 전체 블러는 하지 않음)
+  // 기존 템플릿용 프리미엄 블록
   const isPremiumBlocked =
     activeTemplateInfo.isPremium && templateId !== 'ai' && (isTemplateLocked || !isInputComplete);
     
   // 프리뷰 상호작용 차단
   const isPreviewBlocked = isSsidEmpty || isPremiumBlocked || isAiNoStyle;
   
-  // 다운로드 버튼 비활성화 (AI 템플릿은 잠겨있으면 생성되었어도 다운로드 불가)
+  // 다운로드 버튼 비활성화
   const isDownloadBlocked = isPreviewBlocked || (templateId === 'ai' && isTemplateLocked);
+
+  // 유료 템플릿 중 하나라도 언락된 경우 입력 필드 잠금
+  const hasUnlockedPremium = Array.from(unlockedIds).some(id => id !== 'basic');
+  const isInputDisabled = hasUnlockedPremium;
 
   return (
     <main className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
@@ -88,13 +93,14 @@ export default function Home() {
 
           {/* 좌측: 입력 폼 & 템플릿 선택기 */}
           <div className="w-full lg:w-[450px] flex flex-col items-center lg:items-end">
-            <WiFiForm config={config} onChange={handleChange} isDisabled={false} />
+            <WiFiForm config={config} onChange={handleChange} isDisabled={isInputDisabled} />
             <TemplateSelector
               activeTemplateId={templateId}
               onSelect={setTemplateId}
               unlockedIds={unlockedIds}
               unlockTemplate={unlockTemplate}
               removeUnlockId={removeUnlockId}
+              clearAllUnlocks={clearAllUnlocks}
               config={config}
               isInputComplete={isInputComplete}
               currentUser={currentUser}

@@ -28,6 +28,7 @@ interface Props {
   unlockedIds: Set<TemplateId>;
   unlockTemplate: (id: TemplateId) => void;
   removeUnlockId: (id: TemplateId) => void;
+  clearAllUnlocks: () => void;
   config: WiFiConfig;
   isInputComplete: boolean;
   currentUser: User | null;
@@ -47,6 +48,7 @@ export const TemplateSelector: React.FC<Props> = ({
   unlockedIds,
   unlockTemplate,
   removeUnlockId,
+  clearAllUnlocks,
   config,
   isInputComplete,
   currentUser,
@@ -75,6 +77,15 @@ export const TemplateSelector: React.FC<Props> = ({
 
     // AI 템플릿은 잠금 여부와 상관없이 일단 선택 가능하게 함
     if (id === 'ai') {
+      onSelect(id);
+      return;
+    }
+
+    // 기본형 템플릿 클릭 시 모든 언락 상태 초기화 및 DB 삭제
+    if (id === 'basic') {
+      clearAllUnlocks();
+      const { deleteAllUserUnlocks } = await import('@/application/history/actions');
+      await deleteAllUserUnlocks(config.ssid);
       onSelect(id);
       return;
     }

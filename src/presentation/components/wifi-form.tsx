@@ -10,7 +10,14 @@ interface Props {
 
 export const WiFiForm: React.FC<Props> = ({ config, onChange, isDisabled = false }) => {
   return (
-    <div className={`flex flex-col gap-5 p-6 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl w-full max-w-md transition-opacity ${isDisabled ? 'opacity-80' : ''}`}>
+    <div className={`relative flex flex-col gap-5 p-6 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl w-full max-w-md transition-all duration-300 ${isDisabled ? 'opacity-50 grayscale-[30%]' : ''}`}>
+      {/* 폼 전체 비활성화 오버레이 */}
+      {isDisabled && (
+        <div 
+          className="absolute inset-0 z-50 cursor-not-allowed rounded-2xl" 
+          title="네트워크 정보를 수정하려면 템플릿을 '기본형'으로 변경해주세요." 
+        />
+      )}
       <div>
         <h2 className="text-2xl font-bold text-white mb-1">Wi-Fi 설정</h2>
         <p className="text-white/60 text-sm">네트워크 정보를 입력하면 QR 코드가 실시간으로 업데이트됩니다.</p>
