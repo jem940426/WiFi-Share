@@ -34,7 +34,7 @@ export const generateAiTemplateStyle = async (
     const genAI = new GoogleGenerativeAI(apiKey);
 
     const model = genAI.getGenerativeModel({
-      model: 'gemini-3.0-flash',
+      model: 'gemini-3.1-flash-lite-preview',
       systemInstruction: SYSTEM_PROMPT,
     });
 
