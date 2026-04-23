@@ -27,6 +27,7 @@ interface Props {
   onSelect: (id: TemplateId) => void;
   unlockedIds: Set<TemplateId>;
   unlockTemplate: (id: TemplateId) => void;
+  removeUnlockId: (id: TemplateId) => void;
   config: WiFiConfig;
   isInputComplete: boolean;
   currentUser: User | null;
@@ -45,6 +46,7 @@ export const TemplateSelector: React.FC<Props> = ({
   onSelect,
   unlockedIds,
   unlockTemplate,
+  removeUnlockId,
   config,
   isInputComplete,
   currentUser,
@@ -121,7 +123,7 @@ export const TemplateSelector: React.FC<Props> = ({
       onSelect(pendingTemplateId);
 
       logUserAction('unlocked');
-      recordUnlock(pendingTemplateId);
+      recordUnlock(pendingTemplateId, config.ssid);
 
       setPendingTemplateId(null);
     }
@@ -270,7 +272,12 @@ export const TemplateSelector: React.FC<Props> = ({
                     <span className="text-[10px] text-white/40 truncate">{aiStyle.bottomText}</span>
                   </div>
                   <button
-                    onClick={onResetAiStyle}
+                    onClick={async () => {
+                      onResetAiStyle();
+                      removeUnlockId('ai');
+                      const { deleteUnlock } = await import('@/application/history/actions');
+                      await deleteUnlock('ai', config.ssid);
+                    }}
                     className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/50 hover:text-white transition-colors shrink-0"
                     title="다시 생성"
                   >

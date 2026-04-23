@@ -17,14 +17,30 @@ export const logUserAction = async (action: string): Promise<Result<null, { mess
   return success(null);
 };
 
-export const recordUnlock = async (templateId: string): Promise<Result<null, { message: string }>> => {
+export const recordUnlock = async (templateId: string, ssid: string): Promise<Result<null, { message: string }>> => {
   const user = await getCurrentUser();
   if (!user) return success(null); // 비로그인 유저는 언락 기록 생략
 
   const supabase = createClient();
   const { error } = await supabase
     .from('unlock_history')
-    .insert({ user_id: user.id, template_id: templateId });
+    .insert({ user_id: user.id, template_id: templateId, ssid });
+
+  if (error) return failure({ message: error.message });
+  return success(null);
+};
+
+export const deleteUnlock = async (templateId: string, ssid: string): Promise<Result<null, { message: string }>> => {
+  const user = await getCurrentUser();
+  if (!user) return success(null);
+
+  const supabase = createClient();
+  const { error } = await supabase
+    .from('unlock_history')
+    .delete()
+    .eq('user_id', user.id)
+    .eq('template_id', templateId)
+    .eq('ssid', ssid);
 
   if (error) return failure({ message: error.message });
   return success(null);
@@ -58,7 +74,7 @@ export const recordDownload = async (templateId: string, ssid: string, imageUrl?
 };
 
 // 템플릿 언락 상태 조회
-export const getUnlockedTemplates = async (): Promise<Result<string[], { message: string }>> => {
+export const getUnlockedTemplates = async (ssid: string): Promise<Result<string[], { message: string }>> => {
   const user = await getCurrentUser();
   if (!user) return success([]);
 
@@ -66,7 +82,8 @@ export const getUnlockedTemplates = async (): Promise<Result<string[], { message
   const { data, error } = await supabase
     .from('unlock_history')
     .select('template_id')
-    .eq('user_id', user.id);
+    .eq('user_id', user.id)
+    .eq('ssid', ssid);
 
   if (error) return failure({ message: error.message });
   

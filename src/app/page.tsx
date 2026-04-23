@@ -19,6 +19,7 @@ export default function Home() {
     setTemplateId,
     unlockedIds,
     unlockTemplate,
+    removeUnlockId,
     currentUser,
   } = useWiFiForm();
 
@@ -93,6 +94,7 @@ export default function Home() {
               onSelect={setTemplateId}
               unlockedIds={unlockedIds}
               unlockTemplate={unlockTemplate}
+              removeUnlockId={removeUnlockId}
               config={config}
               isInputComplete={isInputComplete}
               currentUser={currentUser}

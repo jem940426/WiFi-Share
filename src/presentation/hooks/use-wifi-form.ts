@@ -17,33 +17,60 @@ export const useWiFiForm = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   React.useEffect(() => {
-    // 1. 초기 로드 시 유저 정보 및 언락 내역 가져오기
-    const initData = async () => {
+    // 1. 초기 로드 시 유저 정보 가져오기
+    const initUser = async () => {
       try {
-        const { getUnlockedTemplates } = await import('@/application/history/actions');
         const { getCurrentUser } = await import('@/application/auth/actions');
-
         const user = await getCurrentUser();
         setCurrentUser(user);
-
-        if (user) {
-          const result = await getUnlockedTemplates();
-          if (result.isSuccess) {
-            setUnlockedIds(new Set(result.value as TemplateId[]));
-          }
-        }
       } catch {
         console.error('Failed to load user data');
       }
     };
-    initData();
-  }, []);
+    if (!currentUser) {
+      initUser();
+    }
+  }, [currentUser]);
+
+  React.useEffect(() => {
+    // SSID나 비밀번호 변경 시 일단 언락 상태 초기화 (즉시 잠금)
+    setUnlockedIds(new Set());
+
+    const fetchUnlocks = async () => {
+      if (!currentUser || !config.ssid.trim()) return;
+      try {
+        const { getUnlockedTemplates } = await import('@/application/history/actions');
+        const result = await getUnlockedTemplates(config.ssid);
+        if (result.isSuccess) {
+          setUnlockedIds(new Set(result.value as TemplateId[]));
+        }
+      } catch {
+        console.error('Failed to fetch unlocked templates');
+      }
+    };
+
+    // 500ms 디바운스 처리
+    const timer = setTimeout(() => {
+      fetchUnlocks();
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [config.ssid, config.password, currentUser]);
+
   const handleChange = (field: keyof WiFiConfig, value: string | boolean) => {
     setConfig((prev) => ({ ...prev, [field]: value }));
   };
 
   const unlockTemplate = (id: TemplateId) => {
     setUnlockedIds((prev) => new Set(prev).add(id));
+  };
+
+  const removeUnlockId = (id: TemplateId) => {
+    setUnlockedIds((prev) => {
+      const next = new Set(prev);
+      next.delete(id);
+      return next;
+    });
   };
 
   // WiFi QR 문자열 실시간 생성결과. (최적화를 위해 useMemo 사용)
@@ -57,6 +84,7 @@ export const useWiFiForm = () => {
     setTemplateId,
     unlockedIds,
     unlockTemplate,
+    removeUnlockId,
     currentUser,
   };
 };
