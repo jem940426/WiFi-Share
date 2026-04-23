@@ -34,7 +34,6 @@ export const AiTemplate: React.FC<Props> = ({ wifiString, ssid, isLocked, style 
   const bgLuminance = hexToLuminance(backgroundColor);
   const isDark = bgLuminance < 0.5;
 
-  const _baseTextColor = isDark ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.75)';
   const subTextColor = isDark ? 'rgba(255,255,255,0.45)' : 'rgba(0,0,0,0.40)';
   const borderColor = isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.10)';
   const qrBg = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.9)';
