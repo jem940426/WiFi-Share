@@ -1,6 +1,6 @@
 'use server';
 
-import Anthropic from '@anthropic-ai/sdk';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import { AiTemplateStyle } from '@/domain/ai-template';
 import { Result, success, failure } from '@/domain/result';
 
@@ -16,7 +16,7 @@ Respond ONLY with JSON, no other text:
 }`;
 
 /**
- * Claude API를 호출하여 사용자 입력 분위기에 맞는 템플릿 스타일을 생성합니다.
+ * Google Gemini API를 호출하여 사용자 입력 분위기에 맞는 템플릿 스타일을 생성합니다.
  */
 export const generateAiTemplateStyle = async (
   prompt: string
@@ -25,29 +25,23 @@ export const generateAiTemplateStyle = async (
     return failure({ message: '분위기를 입력해주세요.' });
   }
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     return failure({ message: 'API 키가 설정되지 않았습니다.' });
   }
 
   try {
-    const client = new Anthropic({ apiKey });
+    const genAI = new GoogleGenerativeAI(apiKey);
 
-    const message = await client.messages.create({
-      model: 'claude-opus-4-5',
-      max_tokens: 256,
-      system: SYSTEM_PROMPT,
-      messages: [{ role: 'user', content: prompt }],
+    const model = genAI.getGenerativeModel({
+      model: 'gemini-2.0-flash',
+      systemInstruction: SYSTEM_PROMPT,
     });
 
-    // 텍스트 응답 추출
-    const textBlock = message.content.find((block) => block.type === 'text');
-    if (!textBlock || textBlock.type !== 'text') {
-      return failure({ message: '응답을 파싱할 수 없습니다.' });
-    }
+    const result = await model.generateContent(prompt);
+    const rawText = result.response.text().trim();
 
-    // JSON 파싱 — Claude가 순수 JSON만 반환하도록 시스템 프롬프트에 명시함
-    const rawText = textBlock.text.trim();
+    // JSON 블록 추출 (마크다운 코드 블록 포함 대응)
     const jsonMatch = rawText.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
       return failure({ message: '올바른 JSON 응답을 받지 못했습니다.' });
