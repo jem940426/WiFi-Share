@@ -19,7 +19,7 @@ export const sendPasswordResetEmail = async (
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://wifi-share-fawn.vercel.app';
 
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${siteUrl}/auth/login`,
+    redirectTo: `${siteUrl}/auth/update-password`,
   });
 
   if (error) {
