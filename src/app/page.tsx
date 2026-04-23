@@ -48,12 +48,19 @@ export default function Home() {
 
   const activeTemplateInfo = TEMPLATES[templateId];
   const isTemplateLocked = activeTemplateInfo.isPremium && !unlockedIds.has(templateId);
-  // AI 생성형: 언락됐지만 스타일이 없는 경우에도 블로킹 처리
-  const isAiUnlockedButNoStyle =
-    templateId === 'ai' && !isTemplateLocked && !aiStyle;
+  
+  // AI 생성형: 스타일이 없는 경우에만 오버레이 처리 (결제 여부 무관)
+  const isAiNoStyle = templateId === 'ai' && !aiStyle;
+  
+  // 기존 템플릿용 프리미엄 블록 (AI 템플릿은 모달을 따로 띄우고 전체 블러는 하지 않음)
   const isPremiumBlocked =
-    activeTemplateInfo.isPremium && (isTemplateLocked || !isInputComplete);
-  const isPreviewBlocked = isSsidEmpty || isPremiumBlocked || isAiUnlockedButNoStyle;
+    activeTemplateInfo.isPremium && templateId !== 'ai' && (isTemplateLocked || !isInputComplete);
+    
+  // 프리뷰 상호작용 차단
+  const isPreviewBlocked = isSsidEmpty || isPremiumBlocked || isAiNoStyle;
+  
+  // 다운로드 버튼 비활성화 (AI 템플릿은 잠겨있으면 생성되었어도 다운로드 불가)
+  const isDownloadBlocked = isPreviewBlocked || (templateId === 'ai' && isTemplateLocked);
 
   return (
     <main className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
@@ -123,7 +130,7 @@ export default function Home() {
                   templateId={templateId}
                   wifiString={displayWifiString}
                   ssid={displaySsid}
-                  isLocked={isPreviewBlocked}
+                  isLocked={templateId === 'ai' ? isTemplateLocked : isPreviewBlocked}
                   aiStyle={aiStyle}
                 />
               </div>
@@ -139,8 +146,8 @@ export default function Home() {
                 </div>
               )}
 
-              {/* AI 언락됐지만 스타일 없는 경우 안내 오버레이 */}
-              {isAiUnlockedButNoStyle && (
+              {/* AI 스타일 없는 경우 안내 오버레이 */}
+              {isAiNoStyle && (
                 <div className="absolute inset-0 z-20 flex flex-col items-center justify-center overflow-hidden rounded-3xl pointer-events-none select-none">
                   <div className="absolute inset-0 bg-black/40 backdrop-blur-[4px]" />
                   <div className="relative bg-black/70 backdrop-blur-md px-5 py-4 rounded-2xl border border-violet-500/30 shadow-2xl text-center">
@@ -151,8 +158,8 @@ export default function Home() {
                 </div>
               )}
 
-              {/* 잠금/결제 필요 오버레이 */}
-              {isPremiumBlocked && !isAiUnlockedButNoStyle && (
+              {/* 잠금/결제 필요 오버레이 (기존 템플릿 전용) */}
+              {isPremiumBlocked && !isAiNoStyle && (
                 <div className="absolute inset-0 z-20 flex flex-col items-center justify-center overflow-hidden rounded-3xl pointer-events-none select-none">
                   <div className="absolute inset-0 bg-white/10 backdrop-blur-[6px]" />
                   <div className="absolute inset-0 flex items-center justify-center transform -rotate-12">
@@ -173,7 +180,7 @@ export default function Home() {
             </div>
 
             <div className="w-full flex justify-center mt-6">
-              <div className={isPreviewBlocked ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}>
+              <div className={isDownloadBlocked ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}>
                 <DownloadButton targetRef={previewRef} ssid={config.ssid} templateId={templateId} />
               </div>
             </div>

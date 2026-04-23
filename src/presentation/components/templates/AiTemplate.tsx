@@ -41,7 +41,7 @@ export const AiTemplate: React.FC<Props> = ({ wifiString, ssid, isLocked, style 
 
   return (
     <div
-      className="p-6 rounded-[2rem] shadow-2xl flex flex-col items-center justify-center w-80 shrink-0 mx-auto"
+      className="relative overflow-hidden p-6 rounded-[2rem] shadow-2xl flex flex-col items-center justify-center w-80 shrink-0 mx-auto"
       style={{
         aspectRatio: '3/4',
         backgroundColor,
@@ -53,6 +53,18 @@ export const AiTemplate: React.FC<Props> = ({ wifiString, ssid, isLocked, style 
             : 'system-ui, sans-serif',
       }}
     >
+      {/* 워터마크 (잠겨있을 때만 표시) */}
+      {isLocked && (
+        <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-50">
+          <span
+            className="text-6xl font-black tracking-widest drop-shadow-md transform -rotate-12 select-none"
+            style={{ color: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.15)' }}
+          >
+            SAMPLE
+          </span>
+        </div>
+      )}
+
       <div
         className="w-full h-full rounded-xl flex flex-col items-center p-6 relative"
         style={{ border: `1px solid ${borderColor}` }}

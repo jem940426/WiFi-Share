@@ -71,6 +71,12 @@ export const TemplateSelector: React.FC<Props> = ({
     const { logUserAction } = await import('@/application/history/actions');
     logUserAction('template_selected');
 
+    // AI 템플릿은 잠금 여부와 상관없이 일단 선택 가능하게 함
+    if (id === 'ai') {
+      onSelect(id);
+      return;
+    }
+
     // 잠겨있는 프리미엄 템플릿이라면
     if (tpl.isPremium && !unlockedIds.has(id)) {
       if (!currentUser) {
@@ -137,11 +143,11 @@ export const TemplateSelector: React.FC<Props> = ({
     ),
   };
 
-  // AI 생성형 버튼 — 잠금 해제 여부와 무관하게 항상 표시
+  // AI 생성형 버튼
   const isAiActive = activeTemplateId === 'ai';
   const isAiLocked = !unlockedIds.has('ai');
-  // AI 템플릿이 언락됐고 아직 스타일이 없을 때 표시할 입력창
-  const showAiInput = isAiActive && !isAiLocked;
+  // AI 템플릿이 선택되면 잠금 여부와 무관하게 입력창 표시
+  const showAiInput = isAiActive;
 
   return (
     <>
@@ -239,7 +245,7 @@ export const TemplateSelector: React.FC<Props> = ({
           })}
         </div>
 
-        {/* AI 생성형 입력 패널 — AI 탭이 선택되고 언락된 경우에만 표시 */}
+        {/* AI 생성형 입력 패널 — AI 탭이 선택된 경우 표시 */}
         {showAiInput && (
           <div className="mt-2 p-4 rounded-2xl bg-gradient-to-br from-violet-500/10 to-pink-500/5 border border-violet-500/20 flex flex-col gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
             <div className="flex items-center gap-2">
@@ -271,9 +277,31 @@ export const TemplateSelector: React.FC<Props> = ({
                     <RefreshCw size={12} />
                   </button>
                 </div>
-                <p className="text-[10px] text-violet-300/60 text-center">
-                  프리뷰에서 결과를 확인하세요 ✨
-                </p>
+                
+                {isAiLocked ? (
+                  <button
+                    onClick={() => {
+                      if (!currentUser) {
+                        showToast('결제 및 다운로드 기록 저장을 위해 먼저 로그인해주세요.');
+                        return;
+                      }
+                      if (!isInputComplete) {
+                        showToast('먼저 네트워크 정보를 완벽하게 입력해주세요.');
+                        return;
+                      }
+                      setPendingTemplateId('ai');
+                      setConfirmModalOpen(true);
+                    }}
+                    className="w-full mt-1 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-pink-600 hover:from-violet-500 hover:to-pink-500 text-white font-bold text-sm shadow-lg shadow-violet-500/20 transition-all flex items-center justify-center gap-2 transform hover:scale-[1.02] active:scale-[0.98]"
+                  >
+                    <Lock size={14} />
+                    결제하고 워터마크 제거 (₩2,000)
+                  </button>
+                ) : (
+                  <p className="text-[10px] text-violet-300/60 text-center mt-1">
+                    아래에서 고화질로 다운로드하세요 ✨
+                  </p>
+                )}
               </div>
             ) : (
               <>
@@ -303,7 +331,7 @@ export const TemplateSelector: React.FC<Props> = ({
                   ) : (
                     <>
                       <Sparkles size={14} />
-                      생성하기
+                      디자인 생성하기
                     </>
                   )}
                 </button>
