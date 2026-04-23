@@ -93,8 +93,19 @@ export const TemplateSelector: React.FC<Props> = ({
       return;
     }
 
-    // 잠겨있는 프리미엄 템플릿이라면
-    if (tpl.isPremium && !unlockedIds.has(id)) {
+    // 다른 템플릿으로 전환 시 언락 상태 초기화
+    if (id !== activeTemplateId) {
+      clearAllUnlocks();
+    }
+
+    // 프리뷰 즉시 전환
+    onSelect(id);
+
+    // 유료 템플릿인 경우 (clearAllUnlocks로 인해 현재 템플릿 외에는 항상 잠김)
+    // 단, 현재 활성화된 템플릿이고 이미 결제한 상태라면 다시 모달을 띄우지 않음
+    const isCurrentlyUnlocked = id === activeTemplateId ? unlockedIds.has(id) : false;
+    
+    if (tpl.isPremium && !isCurrentlyUnlocked) {
       if (!currentUser) {
         showToast('결제 및 다운로드 기록 저장을 위해 먼저 로그인해주세요.');
         return;
@@ -107,9 +118,6 @@ export const TemplateSelector: React.FC<Props> = ({
       setConfirmModalOpen(true);
       return;
     }
-
-    // 무료거나 이미 풀린 템플릿은 즉시 선택
-    onSelect(id);
   };
 
   const handleConfirmPay = async () => {
