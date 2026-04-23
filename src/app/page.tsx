@@ -64,9 +64,9 @@ export default function Home() {
   // 다운로드 버튼 비활성화
   const isDownloadBlocked = isPreviewBlocked || (templateId === 'ai' && isTemplateLocked);
 
-  // 유료 템플릿 중 하나라도 언락된 경우 입력 필드 잠금
+  // 유료 템플릿 중 하나라도 언락된 경우 또는 현재 선택된 템플릿이 AI 생성형인 경우 입력 필드 잠금
   const hasUnlockedPremium = Array.from(unlockedIds).some(id => id !== 'basic');
-  const isInputDisabled = hasUnlockedPremium;
+  const isInputDisabled = hasUnlockedPremium || templateId === 'ai';
 
   return (
     <main className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
