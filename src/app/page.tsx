@@ -164,7 +164,7 @@ export default function Home() {
                   <div className="absolute inset-0 bg-black/40 backdrop-blur-[4px]" />
                   <div className="relative bg-black/70 backdrop-blur-md px-5 py-4 rounded-2xl border border-violet-500/30 shadow-2xl text-center">
                     <p className="text-white/90 text-[13px] font-bold tracking-wide">
-                      왼쪽에서 분위기를<br />입력하고 생성하세요 ✨
+                      AI에게 원하는 분위기를<br />말해보세요 ✨
                     </p>
                   </div>
                 </div>
