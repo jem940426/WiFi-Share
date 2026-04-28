@@ -2,6 +2,7 @@ import React from 'react';
 import { createClient } from '@/infrastructure/supabase/server';
 import { Users } from 'lucide-react';
 import { TEMPLATES } from '@/domain/template';
+import { maskEmail } from '@/domain/email';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,10 +14,10 @@ export default async function AdminPage() {
     .from('profiles')
     .select('*', { count: 'exact', head: true });
 
-  // 2. 가장 최근 가입한 유저들
+  // 2. 가장 최근 가입한 유저들 (이메일 포함)
   const { data: recentUsers } = await supabase
     .from('profiles')
-    .select('id, created_at')
+    .select('id, created_at, email')
     .order('created_at', { ascending: false })
     .limit(5);
 
@@ -62,7 +63,10 @@ export default async function AdminPage() {
             <div className="space-y-3">
               {recentUsers?.map((u) => (
                 <div key={u.id} className="flex justify-between items-center bg-black/20 p-3 rounded-xl border border-white/5">
-                  <span className="text-sm text-white/80 font-medium truncate max-w-[200px]">{u.id}</span>
+                  <span className="text-sm text-white/80 font-medium truncate max-w-[200px]">
+                    {/* 이메일이 있으면 마스킹 처리, 없으면 UUID 축약 표시 */}
+                    {u.email ? maskEmail(u.email) : `${u.id.slice(0, 8)}...`}
+                  </span>
                   <span className="text-xs text-white/40">{new Date(u.created_at).toLocaleDateString()}</span>
                 </div>
               ))}
