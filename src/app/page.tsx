@@ -73,7 +73,7 @@ export default function Home() {
   const isPremiumUnlocked = templateId !== 'basic' && activeTemplateInfo.isPremium && !isTemplateLocked;
 
   return (
-    <main className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <main className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 pb-[70px] relative overflow-hidden">
       {/* 배경 장식 */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-blue-500/20 blur-[120px] rounded-full pointer-events-none -z-10" />
 
@@ -119,14 +119,14 @@ export default function Home() {
           </div>
 
           {/* 우측: 프리뷰 & 다운로드 */}
-          <div className="w-full lg:w-auto flex flex-col items-center lg:items-start pl-0 lg:pl-4 mt-8 lg:mt-0 relative">
+          <div className="w-full lg:w-auto flex flex-col items-center lg:items-start pl-0 lg:pl-4 mt-8 lg:mt-0 relative self-stretch">
             <div className="relative group perspective-1000">
               <div
                 className={`absolute -inset-1 bg-gradient-to-r ${
                   templateId === 'ai'
                     ? 'from-violet-500 to-pink-500'
                     : 'from-blue-500 to-indigo-500'
-                } rounded-[2.5rem] blur transition duration-1000 ${
+                } rounded-3xl blur transition duration-1000 ${
                   isPreviewBlocked
                     ? 'opacity-20'
                     : 'opacity-25 group-hover:opacity-50 group-hover:duration-200'
@@ -191,7 +191,7 @@ export default function Home() {
               )}
             </div>
 
-            <div className="w-full flex flex-col items-center mt-6 gap-2">
+            <div className="w-full flex flex-col items-center mt-2 gap-2">
               <div className={isDownloadBlocked ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}>
                 <DownloadButton targetRef={previewRef} ssid={config.ssid} templateId={templateId} />
               </div>
@@ -200,6 +200,41 @@ export default function Home() {
                   ⚠️ 지금 다운로드하지 않으면 재결제가 필요할 수 있어요
                 </p>
               )}
+            </div>
+
+            {/* ─── 인라인 배너 광고 ───────────────────────────────────────
+                 [간격] marginTop: 48px (버튼↔배너 시각적 간격)
+                 [높이] height: 150px 고정값
+                 ─────────────────────────────────────────────────────────── */}
+            <div
+              style={{
+                marginTop: '48px',     /* 버튼↔배너 시각적 간격 48px */
+                width: '100%',
+              }}
+            >
+              <div
+                style={{
+                  height: '150px',     /* 계산: 좌측총(709px) - QR프리뷰(427) - 버튼래퍼mt-2(8) - 버튼mt-6(24) - 버튼(52) - 배너marginTop(48) = 150px */
+                  background: '#1e293b',
+                  border: '1px dashed #475569',
+                  borderRadius: '16px',  /* rounded-2xl = 16px, 템플릿 카드 기준값과 통일 */
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <span
+                  style={{
+                    color: '#94a3b8',
+                    fontSize: '13px',
+                    fontWeight: 500,
+                    letterSpacing: '0.04em',
+                    userSelect: 'none',
+                  }}
+                >
+                  광고 영역
+                </span>
+              </div>
             </div>
           </div>
         </div>

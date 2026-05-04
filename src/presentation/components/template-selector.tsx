@@ -267,6 +267,26 @@ export const TemplateSelector: React.FC<Props> = ({
               </button>
             );
           })}
+          {/* 광고 카드 — 그리드 빈 슬롯에 append, 클릭 시 템플릿 선택 안 됨 */}
+          <div
+            className="flex flex-col items-center justify-center p-3 rounded-2xl border h-24 relative cursor-default select-none"
+            style={{
+              background: '#1a2a3a',
+              borderColor: 'rgba(255,255,255,0.08)',
+            }}
+            aria-label="광고 영역"
+          >
+            <span
+              style={{
+                fontSize: '11px',
+                fontWeight: 600,
+                color: 'rgba(255,255,255,0.25)',
+                letterSpacing: '0.1em',
+              }}
+            >
+              광고
+            </span>
+          </div>
         </div>
 
         {/* AI 생성형 입력 패널 — AI 탭이 선택된 경우 표시 */}

@@ -10,7 +10,7 @@ interface Props {
 export const BasicTemplate: React.FC<Props> = ({ wifiString, ssid, isLocked }) => {
   return (
     <div
-      className="bg-white text-black p-8 rounded-[2rem] shadow-2xl flex flex-col items-center justify-center w-80 shrink-0 mx-auto"
+      className="bg-white text-black p-8 rounded-2xl shadow-2xl flex flex-col items-center justify-center w-80 shrink-0 mx-auto"
       style={{ aspectRatio: '3/4', fontFamily: 'Arial, Helvetica, sans-serif' }}
     >
       <div className="mb-8 text-center flex flex-col items-center">

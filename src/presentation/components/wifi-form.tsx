@@ -37,7 +37,7 @@ export const WiFiForm: React.FC<Props> = ({ config, onChange, isDisabled = false
             onChange={(e) => onChange('ssid', e.target.value)}
             disabled={isDisabled}
             placeholder="예: MY HOME WIFI"
-            className="w-full px-4 py-3 rounded-xl bg-black/20 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full px-4 py-3 rounded-2xl bg-black/20 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed"
           />
         </div>
 
@@ -53,7 +53,7 @@ export const WiFiForm: React.FC<Props> = ({ config, onChange, isDisabled = false
             onChange={(e) => onChange('password', e.target.value)}
             disabled={config.encryption === 'nopass' || isDisabled}
             placeholder={config.encryption === 'nopass' ? '비밀번호 없음' : 'WPA/WEP 비밀번호'}
-            className="w-full px-4 py-3 rounded-xl bg-black/20 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full px-4 py-3 rounded-2xl bg-black/20 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed"
           />
         </div>
 
@@ -69,7 +69,7 @@ export const WiFiForm: React.FC<Props> = ({ config, onChange, isDisabled = false
                 key={type}
                 onClick={() => onChange('encryption', type)}
                 disabled={isDisabled}
-                className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                className={`flex-1 py-2 rounded-2xl text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
                   config.encryption === type
                     ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
                     : 'bg-white/5 text-white/60 hover:bg-white/10'

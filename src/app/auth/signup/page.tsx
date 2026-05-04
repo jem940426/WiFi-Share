@@ -80,11 +80,11 @@ export default function SignUpPage() {
   return (
     <>
       <div className="min-h-[calc(100vh-64px)] flex items-center justify-center p-4">
-        <div className="w-full max-w-md p-8 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl">
+        <div className="w-full max-w-md p-8 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl">
           <h2 className="text-3xl font-black text-white text-center mb-8">회원가입</h2>
           
           {error && (
-            <div className="bg-rose-500/10 border border-rose-500/20 text-rose-400 p-3 rounded-xl mb-6 text-sm font-medium whitespace-pre-wrap">
+            <div className="bg-rose-500/10 border border-rose-500/20 text-rose-400 p-3 rounded-2xl mb-6 text-sm font-medium whitespace-pre-wrap">
               {error}
             </div>
           )}
@@ -96,7 +96,7 @@ export default function SignUpPage() {
                 name="email" 
                 type="email" 
                 required 
-                className="w-full px-4 py-3 rounded-xl bg-black/20 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all font-medium"
+                className="w-full px-4 py-3 rounded-2xl bg-black/20 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all font-medium"
                 placeholder="hello@example.com"
               />
             </div>
@@ -108,7 +108,7 @@ export default function SignUpPage() {
                 type="password" 
                 required 
                 minLength={6}
-                className="w-full px-4 py-3 rounded-xl bg-black/20 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all font-medium"
+                className="w-full px-4 py-3 rounded-2xl bg-black/20 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all font-medium"
                 placeholder="최소 6자 이상"
               />
             </div>
@@ -133,7 +133,7 @@ export default function SignUpPage() {
               type="button"
               onClick={handleGoogleLogin}
               disabled={isLoading}
-              className="w-full py-3.5 rounded-xl bg-white text-black font-bold text-base shadow-lg transition-all transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 flex items-center justify-center disabled:hover:scale-100 gap-3"
+              className="w-full py-3.5 rounded-2xl bg-white text-black font-bold text-base shadow-lg transition-all transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 flex items-center justify-center disabled:hover:scale-100 gap-3"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -148,7 +148,7 @@ export default function SignUpPage() {
               type="button"
               onClick={handleKakaoLogin}
               disabled={isLoading}
-              className="w-full py-3.5 rounded-xl bg-[#FEE500] text-black font-bold text-base shadow-lg transition-all transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 flex items-center justify-center disabled:hover:scale-100 gap-3"
+              className="w-full py-3.5 rounded-2xl bg-[#FEE500] text-black font-bold text-base shadow-lg transition-all transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 flex items-center justify-center disabled:hover:scale-100 gap-3"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path fill="#000000" d="M12 3c-4.97 0-9 3.18-9 7.11 0 2.54 1.7 4.76 4.25 5.96-.2.74-.73 2.76-.78 2.97-.06.26.09.26.24.16.12-.08 3.1-2.12 4.38-2.98.6.09 1.25.14 1.91.14 4.97 0 9-3.18 9-7.11S16.97 3 12 3z" />
@@ -180,7 +180,7 @@ export default function SignUpPage() {
             </p>
             <button
               onClick={() => router.push('/auth/login')}
-              className="w-full py-3.5 bg-white text-black font-bold rounded-xl hover:bg-white/90 transition-colors"
+              className="w-full py-3.5 bg-white text-black font-bold rounded-2xl hover:bg-white/90 transition-colors"
             >
               확인
             </button>
@@ -203,13 +203,13 @@ export default function SignUpPage() {
             <div className="flex gap-3">
               <button
                 onClick={() => setShowLoginModal(false)}
-                className="flex-1 py-3.5 bg-white/5 text-white/70 font-bold rounded-xl hover:bg-white/10 transition-colors"
+                className="flex-1 py-3.5 bg-white/5 text-white/70 font-bold rounded-2xl hover:bg-white/10 transition-colors"
               >
                 취소
               </button>
               <button
                 onClick={() => router.push('/auth/login')}
-                className="flex-1 py-3.5 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-500 transition-colors"
+                className="flex-1 py-3.5 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-500 transition-colors"
               >
                 확인
               </button>
