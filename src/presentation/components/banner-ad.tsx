@@ -107,7 +107,7 @@ const BannerAd = () => {
         AD
       </span>
 
-      {/* 중앙 광고 텍스트 */}
+      {/* 좌측 광고 텍스트 */}
       <p
         style={{
           color: 'rgba(255,255,255,0.85)',
@@ -120,32 +120,20 @@ const BannerAd = () => {
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           flex: 1,
-          textAlign: 'center',
+          textAlign: 'left',
         }}
       >
         ✨ 24시간 청소 대행 서비스 — 매장·숙소 운영, 이제 맡기세요 | 상담 무료
       </p>
 
-      {/* 우측: 전화번호 + 버튼 */}
+      {/* 우측: 버튼 */}
       <div
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '10px',
           flexShrink: 0,
         }}
       >
-        <span
-          style={{
-            fontSize: '13px',
-            fontWeight: 700,
-            color: 'rgba(255,255,255,0.7)',
-            letterSpacing: '0.04em',
-            userSelect: 'none',
-          }}
-        >
-          1600-0000
-        </span>
         <button
           onClick={(e) => e.preventDefault()}
           style={{
