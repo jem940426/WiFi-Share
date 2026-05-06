@@ -214,26 +214,22 @@ export default function Home() {
             >
               <div
                 style={{
-                  height: '136px',     /* 계산: 좌측총(709px) - QR프리뷰(427) - 버튼래퍼mt-2(8) - 버튼mt-6(24) - 버튼(52) - 배너marginTop(48) = 136px */
-                  background: '#1e293b',
-                  border: '1px dashed #475569',
+                  height: '136px',
                   borderRadius: '16px',  /* rounded-2xl = 16px, 템플릿 카드 기준값과 통일 */
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  overflow: 'hidden',
+                  cursor: 'pointer',
                 }}
               >
-                <span
+                <img
+                  src="/images/acrylic-frame.png"
+                  alt="아크릴 액자 굿즈"
                   style={{
-                    color: '#94a3b8',
-                    fontSize: '13px',
-                    fontWeight: 500,
-                    letterSpacing: '0.04em',
-                    userSelect: 'none',
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block',
                   }}
-                >
-                  광고 영역
-                </span>
+                />
               </div>
             </div>
           </div>
