@@ -204,7 +204,7 @@ export default function Home() {
 
             {/* ─── 인라인 배너 광고 ───────────────────────────────────────
                  [간격] marginTop: 48px (버튼↔배너 시각적 간격)
-                 [높이] height: 150px 고정값
+                 [높이] height: 136px 고정값
                  ─────────────────────────────────────────────────────────── */}
             <div
               style={{
@@ -214,7 +214,7 @@ export default function Home() {
             >
               <div
                 style={{
-                  height: '150px',     /* 계산: 좌측총(709px) - QR프리뷰(427) - 버튼래퍼mt-2(8) - 버튼mt-6(24) - 버튼(52) - 배너marginTop(48) = 150px */
+                  height: '136px',     /* 계산: 좌측총(709px) - QR프리뷰(427) - 버튼래퍼mt-2(8) - 버튼mt-6(24) - 버튼(52) - 배너marginTop(48) = 136px */
                   background: '#1e293b',
                   border: '1px dashed #475569',
                   borderRadius: '16px',  /* rounded-2xl = 16px, 템플릿 카드 기준값과 통일 */
