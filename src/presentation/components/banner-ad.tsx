@@ -89,37 +89,81 @@ const BannerAd = () => {
         borderTop: '1px solid rgba(255,255,255,0.08)',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
+        padding: '0 16px',
         pointerEvents: 'auto',
       }}
     >
       {/* 좌측 AD 레이블 */}
       <span
         style={{
-          position: 'absolute',
-          left: '12px',
           fontSize: '10px',
           color: 'rgba(255,255,255,0.35)',
           letterSpacing: '0.08em',
           userSelect: 'none',
+          flexShrink: 0,
         }}
       >
         AD
       </span>
 
-      {/* 광고 텍스트 */}
+      {/* 중앙 광고 텍스트 */}
       <p
         style={{
           color: 'rgba(255,255,255,0.85)',
           fontSize: '13px',
           fontWeight: 600,
-          letterSpacing: '0.04em',
-          margin: 0,
+          letterSpacing: '0.03em',
+          margin: '0 12px',
           userSelect: 'none',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          flex: 1,
+          textAlign: 'center',
         }}
       >
-        광고 영역
+        ✨ 24시간 청소 대행 서비스 — 매장·숙소 운영, 이제 맡기세요 | 상담 무료
       </p>
+
+      {/* 우측: 전화번호 + 버튼 */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+          flexShrink: 0,
+        }}
+      >
+        <span
+          style={{
+            fontSize: '13px',
+            fontWeight: 700,
+            color: 'rgba(255,255,255,0.7)',
+            letterSpacing: '0.04em',
+            userSelect: 'none',
+          }}
+        >
+          1600-0000
+        </span>
+        <button
+          onClick={(e) => e.preventDefault()}
+          style={{
+            fontSize: '12px',
+            fontWeight: 700,
+            color: '#fff',
+            background: 'rgba(59,130,246,0.8)',
+            border: 'none',
+            borderRadius: '6px',
+            padding: '5px 10px',
+            cursor: 'pointer',
+            letterSpacing: '0.02em',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          무료 상담 받기 →
+        </button>
+      </div>
     </aside>
   );
 };
