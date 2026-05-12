@@ -268,21 +268,21 @@ export const TemplateSelector: React.FC<Props> = ({
             );
           })}
           {/* 광고 카드 — interior-props.png 이미지로 채운 슬롯, 페이지 이동 없음 */}
+          {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
           <div
-            className="rounded-2xl border h-24 relative overflow-hidden select-none"
+            className="rounded-2xl border overflow-hidden select-none"
             style={{
+              height: '6rem',           /* h-24 = 96px */
               borderColor: 'rgba(255,255,255,0.08)',
               cursor: 'pointer',
             }}
             aria-label="광고 영역"
           >
-            {/* object-fit: cover 로 슬롯 전체를 이미지로 채움 */}
+            {/* width/height 100% + object-fit: cover 로 슬롯 전체 채움 */}
             <img
               src="/images/interior-props.png"
               alt="인테리어 소품 광고"
               style={{
-                position: 'absolute',
-                inset: 0,
                 width: '100%',
                 height: '100%',
                 objectFit: 'cover',
