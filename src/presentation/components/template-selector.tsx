@@ -267,25 +267,28 @@ export const TemplateSelector: React.FC<Props> = ({
               </button>
             );
           })}
-          {/* 광고 카드 — 그리드 빈 슬롯에 append, 클릭 시 템플릿 선택 안 됨 */}
+          {/* 광고 카드 — interior-props.png 이미지로 채운 슬롯, 페이지 이동 없음 */}
           <div
-            className="flex flex-col items-center justify-center p-3 rounded-2xl border h-24 relative cursor-default select-none"
+            className="rounded-2xl border h-24 relative overflow-hidden select-none"
             style={{
-              background: '#1a2a3a',
               borderColor: 'rgba(255,255,255,0.08)',
+              cursor: 'pointer',
             }}
             aria-label="광고 영역"
           >
-            <span
+            {/* object-fit: cover 로 슬롯 전체를 이미지로 채움 */}
+            <img
+              src="/images/interior-props.png"
+              alt="인테리어 소품 광고"
               style={{
-                fontSize: '11px',
-                fontWeight: 600,
-                color: 'rgba(255,255,255,0.25)',
-                letterSpacing: '0.1em',
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                display: 'block',
               }}
-            >
-              광고
-            </span>
+            />
           </div>
         </div>
 
